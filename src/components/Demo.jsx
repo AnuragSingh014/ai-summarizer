@@ -11,6 +11,7 @@ const Demo = () => {
 
   const [allArticles, setAllArticles] = useState([]);
 
+  const [copied, setCopied] = useState("")
   const [getSummary,  {error, isFetching}] =  useLazyGetSummaryQuery();
 
   // to store allArticles in local storage we will use useEffect 
@@ -38,6 +39,13 @@ const Demo = () => {
     
     localStorage.setItem('articles', JSON.stringify(updatedArticles))
     }
+  }
+
+  const handleCopy = (copyURL) => {
+    setCopied(copyURL);
+    navigator.clipboard.writeText(copyURL);
+    // we are doing the below thing for showing an animation
+    setTimeout(()=>setCopied(""), 3000)
   }
   return (
     <section className="mt-16 w-full max-w-xl">
@@ -73,8 +81,9 @@ const Demo = () => {
             className="link_card"
             >
         
-              <div className="copy_btn">
-                <img src = {copy} alt="copy_icon"
+              <div className="copy_btn" onClick={()=>handleCopy(item.url)}>
+                <img src = {copied === item.url ? tick: copy}
+                 alt="copy_icon"
                 className="w-[40%] h-[40%] object-contain"
                 />
               </div>
@@ -100,7 +109,6 @@ const Demo = () => {
               <div className="summary_box">
                 <p className="font-inter font-medium text-sm text-gray-700">
                   {article.summary}
-
                 </p>
               </div>
             </div>
