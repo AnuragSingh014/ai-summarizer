@@ -37,6 +37,7 @@ const Demo = () => {
     setArticle(newArticle);
     setAllArticles(updatedArticles);
     
+    
     localStorage.setItem('articles', JSON.stringify(updatedArticles))
     }
   }
